@@ -10,6 +10,28 @@ program
   .helpOption('-h, --help', 'показати довідку')
   .option('-f, --file <path>', 'шлях до JSON-файлу з замовленнями', 'data.json');
 
+const errorTranslations = [
+  [/^error: missing required argument '(.+)'/, (m) => `відсутній обов'язковий аргумент '${m[1]}'`],
+  [/^error: unknown option '(.+)'/, (m) => `невідома опція '${m[1]}'`],
+  [/^error: unknown command '(.+)'/, (m) => `невідома команда '${m[1]}'`],
+  [/^error: option '(.+)' argument missing/, (m) => `для опції '${m[1]}' не вказано значення`],
+  [/^error: too many arguments/, () => 'забагато аргументів'],
+];
+
+program.configureOutput({
+  outputError: (str) => {
+    const text = str.trim();
+    for (const [re, build] of errorTranslations) {
+      const m = text.match(re);
+      if (m) {
+        console.error(`Помилка: ${build(m)}`);
+        return;
+      }
+    }
+    console.error(`Помилка: ${text.replace(/^error: /, '')}`);
+  },
+});
+
 function fail(message) {
   console.error(`Помилка: ${message}`);
   process.exit(1);
