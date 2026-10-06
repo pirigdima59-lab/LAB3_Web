@@ -101,4 +101,68 @@ program
     console.log(typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value));
   });
 
+
+function formatMoney(value) {
+  return value.toFixed(2);
+}
+
+function orderTotal(order) {
+  return order.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+}
+
+program
+  .command('items')
+  .description('показати позиції замовлення із сумою за кожну')
+  .argument('<id>', 'id замовлення, наприклад ord001')
+  .option('-s, --sort <field>', 'сортування: name (за назвою) або total (за сумою)')
+  .action((id, options) => {
+    const order = findOrder(loadOrders(), id);
+    let rows = order.items.map((item) => ({
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+      total: item.quantity * item.price,
+    }));
+    if (options.sort !== undefined) {
+      if (options.sort === 'name') {
+        rows.sort((a, b) => a.name.localeCompare(b.name, 'uk'));
+      } else if (options.sort === 'total') {
+        rows.sort((a, b) => b.total - a.total);
+      } else {
+        fail('--sort приймає лише значення name або total');
+      }
+    }
+    for (const r of rows) {
+      console.log(`${r.name}  ${r.quantity} x ${formatMoney(r.price)} = ${formatMoney(r.total)}`);
+    }
+  });
+
+program
+  .command('total')
+  .description('показати загальну суму замовлення')
+  .argument('<id>', 'id замовлення, наприклад ord001')
+  .action((id) => {
+    const order = findOrder(loadOrders(), id);
+    console.log(formatMoney(orderTotal(order)));
+  });
+
+program
+  .command('summary')
+  .description('показати зведення про доставку й оплату')
+  .argument('<id>', 'id замовлення, наприклад ord001')
+  .option('--short', 'показати лише статус і ознаку оплати')
+  .action((id, options) => {
+    const o = findOrder(loadOrders(), id);
+    const paid = o.isPaid ? 'так' : 'ні';
+    if (options.short) {
+      console.log(`Статус: ${o.status}, оплачено: ${paid}`);
+      return;
+    }
+    const a = o.deliveryAddress;
+    console.log(`Адреса: ${a.city}, ${a.street}, ${a.postalCode}`);
+    console.log(`Спосіб оплати: ${o.paymentMethod}`);
+    console.log(`Статус: ${o.status}`);
+    console.log(`Оплачено: ${paid}`);
+  });
+
 program.parse();
