@@ -1,0 +1,24 @@
+{
+  "name": "lab3_web",
+  "version": "1.0.0",
+  "description": "CLI-програма для роботи із замовленнями інтернет-магазину",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pirigdima59-lab/LAB3_Web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pirigdima59-lab/LAB3_Web/issues"
+  },
+  "homepage": "https://github.com/pirigdima59-lab/LAB3_Web#readme",
+  "dependencies": {
+    "commander": "^15.0.0"
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ord001",
+    "orderDate": "2026-09-10",
+    "customerName": "Олена Ковальчук",
+    "items": [
+      {
+        "productId": "p101",
+        "name": "Бездротові навушники",
+        "quantity": 1,
+        "price": 1499.0
+      },
+      {
+        "productId": "p205",
+        "name": "Чохол для телефону",
+        "quantity": 2,
+        "price": 249.5
+      }
+    ],
+    "deliveryAddress": {
+      "city": "Львів",
+      "street": "вул. Личаківська, 45",
+      "postalCode": "79000"
+    },
+    "paymentMethod": "card",
+    "status": "shipped",
+    "isPaid": true,
+    "comment": "Доставити після 18:00"
+  },
+  {
+    "id": "ord002",
+    "orderDate": "2026-09-12",
+    "customerName": "Андрій Петренко",
+    "items": [
+      {
+        "productId": "p310",
+        "name": "Настільна лампа",
+        "quantity": 1,
+        "price": 899.0
+      }
+    ],
+    "deliveryAddress": {
+      "city": "Київ",
+      "street": "просп. Перемоги, 12",
+      "postalCode": "03057"
+    },
+    "paymentMethod": "cash",
+    "status": "pending",
+    "isPaid": false,
+    "comment": null
+  }
+]
